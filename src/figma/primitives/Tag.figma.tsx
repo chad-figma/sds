@@ -1,11 +1,5 @@
 import figma from "@figma/code-connect";
-import {
-  Label,
-  Tag,
-  TagToggle,
-  TagToggleGroup,
-  TagToggleList,
-} from "primitives";
+import { Tag, TagReview } from "primitives";
 
 figma.connect(Tag, "<FIGMA_TAGS_TAG>", {
   props: {
@@ -24,26 +18,16 @@ figma.connect(Tag, "<FIGMA_TAGS_TAG>", {
   example: ({ ...props }) => <Tag {...props}></Tag>,
 });
 
-figma.connect(TagToggle, "<FIGMA_TAGS_TAG_TOGGLE>", {
+figma.connect(TagReview, "<FIGMA_TAGS_TAG_REVIEW>", {
   props: {
-    label: figma.string("Label"),
-    iconStart: figma.instance("Icon"),
+    status: figma.enum("Status", {
+      Submitted: "submitted",
+      "In Review": "review",
+    }),
+    size: figma.enum("Size", {
+      Small: "small",
+      Medium: "medium",
+    }),
   },
-  example: ({ label, ...props }) => (
-    <TagToggle id={label} {...props}>
-      {label}
-    </TagToggle>
-  ),
-});
-
-figma.connect(TagToggleGroup, "<FIGMA_TAGS_TAG_TOGGLE_GROUP>", {
-  props: {
-    children: figma.children("Tag Toggle"),
-  },
-  example: ({ children }) => (
-    <TagToggleGroup>
-      <Label>Label this!</Label>
-      <TagToggleList>{children}</TagToggleList>
-    </TagToggleGroup>
-  ),
+  example: (props) => <TagReview {...props} />,
 });

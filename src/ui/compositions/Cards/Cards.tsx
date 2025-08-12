@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { PricingPlan, Product } from "data";
 import { useMediaQuery } from "hooks";
-import { IconStar } from "icons";
+import { IconLocation, IconStar } from "icons";
 import { Flex } from "layout";
 import {
   Avatar,
@@ -326,7 +326,7 @@ export function productToProductInfoCardProps(
       <Image
         src={product.imageUrl}
         alt={product.name}
-        aspectRatio="4-3"
+        aspectRatio="3:4"
         className="product-info-card-asset"
       />
     ),
@@ -365,7 +365,7 @@ export function ProductInfoCardSkeleton({}: {}) {
       variant="stroke"
       asset={
         <Image
-          aspectRatio="4-3"
+          aspectRatio="3:4"
           alt="Placeholder image"
           className="product-info-card-asset"
         />
@@ -549,6 +549,51 @@ export function TestimonialCard({
       <AvatarBlock title={name} description={`@${username}`}>
         <Avatar size="large" src={src} initials={initials} />
       </AvatarBlock>
+    </Card>
+  );
+}
+
+type ImageRatio = "2:3" | "1:1" | "3:4" | "3:2";
+type LocationBlockProps = {
+  icon?: React.ReactNode;
+  text: string;
+};
+
+export function LocationBlock({ icon, text }: LocationBlockProps) {
+  return (
+    <div
+      className="location-block"
+      style={{ display: "flex", alignItems: "center", gap: "4px" }}
+    >
+      {icon}
+      <span className="location-text">{text}</span>
+    </div>
+  );
+}
+
+export type BrowseCardProps = {
+  imageSrc: string;
+  imageAlt?: string;
+  title: string;
+  location: string;
+  imageRatio?: ImageRatio;
+} & React.ComponentProps<typeof Card>;
+
+export function BrowseCard({
+  imageSrc,
+  imageAlt = "",
+  title,
+  location,
+  imageRatio = "2:3",
+  children,
+  ...props
+}: BrowseCardProps) {
+  return (
+    <Card direction="vertical" {...props}>
+      <Image src={imageSrc} alt={imageAlt} aspectRatio={imageRatio} />
+      {children}
+      <TextHeading>{title}</TextHeading>
+      <LocationBlock icon={<IconLocation />} text={location} />
     </Card>
   );
 }

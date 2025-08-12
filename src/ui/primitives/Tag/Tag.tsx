@@ -1,20 +1,17 @@
 import clsx from "clsx";
 import { IconX } from "icons";
-import React, { ReactNode } from "react";
+import React from "react";
 import {
   Button as RACButton,
   PressEvent as RACPressEvent,
   Tag as RACTag,
-  TagGroup as RACTagGroup,
-  TagList as RACTagList,
-  type TagGroupProps as RACTagGroupProps,
-  type TagListProps as RACTagListProps,
   type TagProps as RACTagProps,
 } from "react-aria-components";
 import { AnchorOrButton, type AnchorOrButtonProps } from "utils";
 import "./tag.css";
 
 type TagCategory = "marine" | "geology" | "biology" | "ecology" | "astronomy";
+type TagStatus = "submitted" | "review";
 type TagSize = "medium" | "small";
 
 type SharedTagProps = {
@@ -30,6 +27,11 @@ const CategoryLabels: Record<TagCategory, string> = {
   biology: "Biology",
   ecology: "Ecology",
   astronomy: "Astronomy",
+};
+
+const StatusLabels: Record<TagStatus, string> = {
+  submitted: "Submitted",
+  review: "In Review",
 };
 
 export type TagProps = SharedTagProps &
@@ -81,39 +83,33 @@ export const TagButton = React.forwardRef(function Tag(
   return <AnchorOrButton {...props} className={classNames} ref={ref} />;
 });
 
-export type TagToggleProps = RACTagProps & { iconStart?: ReactNode };
-export function TagToggle({
+export type TagReviewProps = RACTagProps & {
+  status?: TagStatus;
+  size?: TagSize;
+};
+export function TagReview({
   children,
   className,
-  iconStart,
+  status,
+  size = "medium",
   textValue,
   ...props
-}: TagToggleProps) {
-  const classNames = clsx(className, "tag", "tag-toggle");
+}: TagReviewProps) {
+  const classNames = clsx(
+    className,
+    "tag",
+    "tag-review",
+    size && `tag-size-${size}`,
+    status && `tag-status-${status}`,
+  );
+  const fallbackLabel = status ? StatusLabels[status] : undefined;
+  const content = children ?? fallbackLabel;
+
   textValue =
-    textValue ||
-    (typeof children === "string" ? children : (children || "").toString());
+    textValue || (typeof content === "string" ? content : content?.toString());
   return (
     <RACTag className={classNames} textValue={textValue} {...props}>
-      <>
-        {iconStart}
-        {children}
-      </>
+      <>{content}</>
     </RACTag>
   );
-}
-
-export type TagToggleGroupProps = RACTagGroupProps;
-export function TagToggleGroup({ className, ...props }: TagToggleGroupProps) {
-  const classNames = clsx(className, "tag-toggle-group");
-  return <RACTagGroup className={classNames} {...props} />;
-}
-
-export type TagToggleListProps<T> = RACTagListProps<T>;
-export function TagToggleList<T extends object>({
-  className,
-  ...props
-}: TagToggleListProps<T>) {
-  const classNames = clsx(className, "tag-toggle-list");
-  return <RACTagList className={classNames} {...props} />;
 }

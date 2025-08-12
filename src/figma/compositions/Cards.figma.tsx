@@ -1,5 +1,6 @@
 import { figma } from "@figma/code-connect";
 import {
+  BrowseCard,
   Card,
   PricingCard,
   ProductInfoCard,
@@ -13,7 +14,7 @@ import { ButtonProps, Image, Text, TextHeading } from "primitives";
 figma.connect(Card, "<FIGMA_CARDS_CARD>", {
   props: {
     asset: figma.enum("Asset Type", {
-      Image: <Image alt="Always use alt text" aspectRatio="1-1" size="small" />,
+      Image: <Image alt="Always use alt text" aspectRatio="1:1" size="small" />,
       Icon: figma.instance("Icon"),
     }),
     heading: figma.string("Heading"),
@@ -177,4 +178,18 @@ figma.connect(TestimonialCard, "<FIGMA_CARDS_TESTIMONIAL_CARD>", {
       username={avatarBlockProps.username}
     />
   ),
+});
+figma.connect(BrowseCard, "<FIGMA_CARDS_BROWSE_CARD>", {
+  props: {
+    title: figma.string("Title"),
+    location: figma.string("Location"),
+    imageRatio: figma.enum("Image Size", {
+      "2:3": "2:3",
+      "1:1": "1:1",
+      "3:4": "3:4",
+      "3:2": "3:2",
+    }),
+    children: figma.children("Tag"),
+  },
+  example: (props) => <BrowseCard imageSrc="" imageAlt="" {...props} />,
 });
