@@ -12,9 +12,10 @@ import "./search.css";
 export type SearchProps = Omit<RACInputProps, "results"> & {
   results?: string[];
   onSearch?: (search: string) => void;
+  variant?: "small" | "large";
 };
 export const Search = React.forwardRef(function Search(
-  { className, results, onSearch, ...props }: SearchProps,
+  { className, results, onSearch, variant, ...props }: SearchProps,
   ref: React.ForwardedRef<HTMLInputElement>,
 ) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -33,7 +34,7 @@ export const Search = React.forwardRef(function Search(
       <Label hidden>{props["aria-label"] || "Search"}</Label>
       <Input
         type="search"
-        className="search-input"
+        className={clsx("search-input", variant && `search-input-${variant}`)}
         value={searchTerm}
         onInput={(e) => onInputInput(e.currentTarget.value)}
         ref={(node) => {

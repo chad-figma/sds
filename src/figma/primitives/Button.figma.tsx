@@ -1,12 +1,8 @@
 import figma from "@figma/code-connect";
-import { Button, ButtonDanger, ButtonGroup } from "primitives";
+import { Button, ButtonDanger } from "primitives";
 
 const sharedProps = {
   label: figma.string("Label"),
-  iconStart: figma.boolean("Has Icon Start", {
-    true: figma.instance("Icon Start"),
-    false: undefined,
-  }),
   iconEnd: figma.boolean("Has Icon End", {
     true: figma.instance("Icon End"),
     false: undefined,
@@ -23,14 +19,11 @@ figma.connect(Button, "<FIGMA_BUTTONS_BUTTON>", {
   props: {
     ...sharedProps,
     variant: figma.enum("Variant", {
-      Primary: "primary",
       Neutral: "neutral",
-      Subtle: "subtle",
     }),
   },
-  example: ({ label, iconEnd, iconStart, ...props }) => (
+  example: ({ label, iconEnd, ...props }) => (
     <Button onPress={() => {}} {...props}>
-      {iconStart}
       {label}
       {iconEnd}
     </Button>
@@ -43,26 +36,10 @@ figma.connect(Button, "<FIGMA_BUTTONS_BUTTON_DANGER>", {
       Subtle: "danger-subtle",
     }),
   },
-  example: ({ label, iconEnd, iconStart, ...props }) => (
+  example: ({ label, iconEnd, ...props }) => (
     <ButtonDanger onPress={() => {}} {...props}>
-      {iconStart}
       {label}
       {iconEnd}
     </ButtonDanger>
-  ),
-});
-
-figma.connect(ButtonGroup, "<FIGMA_BUTTONS_BUTTON_GROUP>", {
-  props: {
-    align: figma.enum("Align", {
-      Center: "center",
-      End: "end",
-      Justify: "justify",
-      Stack: "stack",
-    }),
-    children: figma.children(["Button"]),
-  },
-  example: ({ children, ...props }) => (
-    <ButtonGroup {...props}>{children}</ButtonGroup>
   ),
 });

@@ -14,34 +14,39 @@ import {
 import { AnchorOrButton, type AnchorOrButtonProps } from "utils";
 import "./tag.css";
 
-type TagScheme = "brand" | "danger" | "positive" | "warning" | "neutral";
-type TagVariant = "primary" | "secondary";
+type TagScheme = "marine" | "geology" | "biology" | "ecology" | "astronomy";
+type TagSize = "medium" | "small";
 
 type SharedTagProps = {
   scheme?: TagScheme;
-  variant?: TagVariant;
+  size?: TagSize;
 };
 
 type TagRemovableProps = { onRemove?: (e: RACPressEvent) => void };
+
+const SchemeLabels: Record<TagScheme, string> = {
+  marine: "Marine Sci.",
+  geology: "Geology",
+  biology: "Biology",
+  ecology: "Ecology",
+  astronomy: "Astronomy",
+};
 
 export type TagProps = SharedTagProps &
   TagRemovableProps &
   React.ComponentPropsWithoutRef<"span">;
 export function Tag({
   children,
-  scheme = "brand",
-  variant = "primary",
+  scheme = "geology",
+  size = "medium",
   onRemove,
   ...props
 }: TagProps) {
-  const classNames = clsx(
-    "tag",
-    `tag-scheme-${scheme}`,
-    `tag-variant-${variant}`,
-  );
+  const classNames = clsx("tag", `tag-scheme-${scheme}`, `tag-size-${size}`);
+  const label = SchemeLabels[scheme] || scheme;
   return (
     <span {...props} className={classNames}>
-      {children}{" "}
+      {label}
       {onRemove && (
         <RACButton className="tag-remove-button" onPress={onRemove}>
           <IconX size="16" />
@@ -53,12 +58,7 @@ export function Tag({
 
 export type TagButtonProps = SharedTagProps & AnchorOrButtonProps;
 export const TagButton = React.forwardRef(function Tag(
-  {
-    className,
-    scheme = "brand",
-    variant = "primary",
-    ...props
-  }: TagButtonProps,
+  { className, scheme = "geology", size = "medium", ...props }: TagButtonProps,
   ref: React.ForwardedRef<HTMLElement>,
 ) {
   const classNames = clsx(
@@ -66,7 +66,7 @@ export const TagButton = React.forwardRef(function Tag(
     "tag",
     "tag-button",
     `tag-scheme-${scheme}`,
-    `tag-variant-${variant}`,
+    `tag-size-${size}`,
   );
 
   return <AnchorOrButton {...props} className={classNames} ref={ref} />;

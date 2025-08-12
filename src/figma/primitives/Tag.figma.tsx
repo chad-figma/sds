@@ -9,22 +9,19 @@ import {
 
 figma.connect(Tag, "<FIGMA_TAGS_TAG>", {
   props: {
-    onRemove: figma.boolean("Removable", {
-      true: () => {},
-      false: undefined,
-    }),
-    label: figma.string("Label"),
-    variant: figma.enum("Variant", {
-      Secondary: "secondary",
+    size: figma.enum("Size", {
+      Small: "small",
+      Medium: "medium",
     }),
     scheme: figma.enum("Scheme", {
-      Danger: "danger",
-      Positive: "positive",
-      Warning: "warning",
-      Neutral: "neutral",
+      Geology: "geology",
+      Marine: "marine",
+      Biology: "biology",
+      Ecology: "ecology",
+      Astronomy: "astronomy",
     }),
   },
-  example: ({ label, ...props }) => <Tag {...props}>{label}</Tag>,
+  example: ({ ...props }) => <Tag {...props}></Tag>,
 });
 
 figma.connect(TagToggle, "<FIGMA_TAGS_TAG_TOGGLE>", {
