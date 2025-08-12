@@ -13,7 +13,7 @@ figma.connect(Tag, "<FIGMA_TAGS_TAG>", {
       Small: "small",
       Medium: "medium",
     }),
-    scheme: figma.enum("Scheme", {
+    category: figma.enum("Category", {
       Geology: "geology",
       Marine: "marine",
       Biology: "biology",

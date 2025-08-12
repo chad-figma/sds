@@ -14,17 +14,17 @@ import {
 import { AnchorOrButton, type AnchorOrButtonProps } from "utils";
 import "./tag.css";
 
-type TagScheme = "marine" | "geology" | "biology" | "ecology" | "astronomy";
+type TagCategory = "marine" | "geology" | "biology" | "ecology" | "astronomy";
 type TagSize = "medium" | "small";
 
 type SharedTagProps = {
-  scheme?: TagScheme;
+  category?: TagCategory;
   size?: TagSize;
 };
 
 type TagRemovableProps = { onRemove?: (e: RACPressEvent) => void };
 
-const SchemeLabels: Record<TagScheme, string> = {
+const CategoryLabels: Record<TagCategory, string> = {
   marine: "Marine Sci.",
   geology: "Geology",
   biology: "Biology",
@@ -37,13 +37,17 @@ export type TagProps = SharedTagProps &
   React.ComponentPropsWithoutRef<"span">;
 export function Tag({
   children,
-  scheme = "geology",
+  category = "geology",
   size = "medium",
   onRemove,
   ...props
 }: TagProps) {
-  const classNames = clsx("tag", `tag-scheme-${scheme}`, `tag-size-${size}`);
-  const label = SchemeLabels[scheme] || scheme;
+  const classNames = clsx(
+    "tag",
+    `tag-category-${category}`,
+    `tag-size-${size}`,
+  );
+  const label = CategoryLabels[category] || category;
   return (
     <span {...props} className={classNames}>
       {label}
@@ -58,14 +62,19 @@ export function Tag({
 
 export type TagButtonProps = SharedTagProps & AnchorOrButtonProps;
 export const TagButton = React.forwardRef(function Tag(
-  { className, scheme = "geology", size = "medium", ...props }: TagButtonProps,
+  {
+    className,
+    category = "geology",
+    size = "medium",
+    ...props
+  }: TagButtonProps,
   ref: React.ForwardedRef<HTMLElement>,
 ) {
   const classNames = clsx(
     className,
     "tag",
     "tag-button",
-    `tag-scheme-${scheme}`,
+    `tag-category-${category}`,
     `tag-size-${size}`,
   );
 
