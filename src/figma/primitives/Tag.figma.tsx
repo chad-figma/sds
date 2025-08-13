@@ -15,14 +15,14 @@ figma.connect(Tag, "<FIGMA_TAGS_TAG>", {
       Astronomy: "astronomy",
     }),
   },
-  example: ({ ...props }) => <Tag {...props}></Tag>,
+  example: ({ ...props }) => <Tag {...props} />,
 });
 
 figma.connect(TagReview, "<FIGMA_TAGS_TAG_REVIEW>", {
   props: {
     status: figma.enum("Status", {
       Submitted: "submitted",
-      "In Review": "review",
+      Review: "review",
     }),
     size: figma.enum("Size", {
       Small: "small",
